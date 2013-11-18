@@ -36,6 +36,7 @@ public:
     void UnselectAll();
     void UpdateFibers();
     void UpdateSelected();
+    void SelectItem( long item );
     
     // Getters/Setters
     int  GetColumnClicked() const                   { return m_column; }

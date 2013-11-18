@@ -12,6 +12,7 @@
 #include "SelectionTree.h"
 #include "ToolBar.h"
 #include "TrackingWindow.h"
+#include "ClusteringWindow.h"
 #include "../main.h"
 #include "../Logger.h"
 #include "../dataset/Anatomy.h"
@@ -329,6 +330,8 @@ void MainFrame::initLayout()
     m_pPropertiesWindow->SetScrollbars( 10, 10, 50, 50 );
     m_pPropertiesWindow->EnableScrolling( false, true );
 
+    m_tab->AddPage( m_pPropertiesWindow, wxT( "Properties" ) );
+
     //////////////////////////////////////////////////////////////////////////
     // TrackingWindow initialization for RTT
     m_pTrackingWindow = new TrackingWindow( m_tab, this, wxID_ANY, wxDefaultPosition, wxSize( PROP_WND_WIDTH, PROP_WND_HEIGHT ) ); // Contains realtime tracking properties
@@ -339,9 +342,17 @@ void MainFrame::initLayout()
     m_pTrackingWindowHardi->SetScrollbars( 10, 10, 50, 50 );
     m_pTrackingWindowHardi->EnableScrolling( true, true );
 
-    m_tab->AddPage( m_pPropertiesWindow, wxT( "Properties" ) );
     m_tab->AddPage( m_pTrackingWindow, wxT( "DTI tracking" ) );
     m_tab->AddPage( m_pTrackingWindowHardi, wxT( "HARDI tracking" ) );
+
+    //////////////////////////////////////////////////////////////////////////
+    // ClusteringWindow initialization
+    m_pClusteringWindow = new ClusteringWindow( m_tab, this, wxID_ANY, wxDefaultPosition, wxSize( PROP_WND_WIDTH, PROP_WND_HEIGHT ) ); // Contains clustering properties
+    m_pClusteringWindow->SetScrollbars( 10, 10, 50, 50 );
+    m_pClusteringWindow->EnableScrolling( false, true );
+
+    m_tab->AddPage( m_pClusteringWindow, wxT( "Clustering" ) );
+
 
     pBoxTab->Add( m_tab, 1, wxEXPAND | wxALL, 2 );
 

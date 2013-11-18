@@ -38,6 +38,7 @@ public:
 
     // Fibers loading methods
     bool    load( const wxString &filename );
+    bool    createFrom( const vector<float*>& pointArray, const vector<int>& linePointers, const vector<float*>& colorArray, wxString name=wxT("Generated"));
     bool    createFrom( const vector<Fibers*>& fibers, wxString name=wxT("Merged"));
 
     void    updateFibersColors();

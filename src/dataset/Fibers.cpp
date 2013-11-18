@@ -1502,6 +1502,103 @@ bool Fibers::loadDmri( const wxString &filename )
     return true;
 }
 
+bool Fibers::createFrom( const vector<float*>& pointsStartPtr, const vector<int>& linesLength,
+                         const vector<float*>& colorStartPtr, wxString name )
+{
+    // Count the total number of points included in this Fibers object.
+    m_countPoints = 0;
+    for (vector<int>::const_iterator it = linesLength.begin(); it != linesLength.end(); ++it)
+        m_countPoints += *it;
+
+    m_countLines = linesLength.size();
+    m_pointArray.clear();
+    m_colorArray.clear();
+    m_linePointers.clear();
+    m_reverse.clear();
+    //m_pointArray.max_size();
+    //m_pointArray.resize( m_countPoints * 3 );
+    //m_colorArray.resize( m_countPoints * 3 );
+    //m_reverse.resize( m_countPoints );
+    //m_linePointers.resize( m_countLines + 1 );
+    m_selected.resize( m_countLines, false );
+    m_filtered.resize( m_countLines, false );
+    
+    //m_linePointers[0] = 0;
+    //m_linePointers[m_countLines] = m_countPoints;
+
+    stringstream ss;
+    ss.str( "" );
+    ss << "m_countPoints: " << m_countPoints;
+    Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+
+    for( int i = 0; i < linesLength.size(); ++i )
+    {
+        ss.str( "" );
+        ss << "length[" << i << "] = " << linesLength[i];
+        Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+    }
+
+    ss.str( "" );
+    ss << "m_countLines: " << m_countLines;
+    Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+
+    m_linePointers.push_back(0);
+    for( int i = 0; i < m_countLines; ++i )
+    {
+        for( int j = 0; j < linesLength[i] * 3; ++j )
+        {
+
+            m_pointArray.push_back(pointsStartPtr[i][j]);
+            m_colorArray.push_back(colorStartPtr[i][j]);
+            m_reverse.push_back(i);
+        }
+
+        m_linePointers.push_back(m_linePointers[i] + linesLength[i]);
+    }
+
+    // Copy points, copy colors, set line pointers and set reverse lookup
+    // for( int i = 0; i < m_countLines; ++i )
+    // {
+    //     int offset = m_linePointers[i] * 3;
+    //     for( int j = 0; j < linesLength[i] * 3; ++j )
+    //     {
+
+    //         m_pointArray[offset + j] = pointsStartPtr[i][j];
+    //         //m_colorArray[offset + j] = colorStartPtr[i][j];
+
+    //         ss.str( "" );
+    //         ss << "m_pointArray: " << m_pointArray[offset + j] << "  \t" << pointsStartPtr[i][j];
+    //         Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+        
+    //         m_reverse[offset + j] = i;
+
+    //         /*ss.str( "" );
+    //         ss << "m_reverse[" << offset + j << "] = " << m_reverse[offset + j];
+    //         //ss << "m_reverse[" << (offset/3 + j) << "] = " << m_reverse[offset/3 + j];
+    //         Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );*/
+    //     }
+
+
+    //     m_linePointers[i+1] = m_linePointers[i] + linesLength[i];// * 3;
+
+    //     ss.str( "" );
+    //     ss << "m_linePointers[i+1]: " << m_linePointers[i+1];
+    //     Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+    // }
+    ss.str( "" );
+    ss << "size of m_pointArray: " << m_pointArray.size();
+    Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+
+    createColorArray( false );
+    m_type = FIBERS;
+    m_fullPath = name;
+    m_name = name;
+
+    m_pOctree = new Octree( 2, m_pointArray, m_countPoints );
+
+    return true;
+}
+
 bool Fibers::createFrom( const vector<Fibers*>& bundles, wxString name )
 {
     m_pointArray.clear();
