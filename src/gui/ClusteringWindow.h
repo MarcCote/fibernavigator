@@ -32,16 +32,22 @@ public:
     void OnSize( wxSizeEvent &event );
     wxSizer* getWindowSizer();
 
-
     void OnDoClustering                        ( wxCommandEvent& event );
-    //void OnSelectShell                         ( wxCommandEvent& event );
-    //void OnClearBox                            ( wxTreeEvent&    event );
+
     void OnSliderThresholdMoved                ( wxCommandEvent& event );
-    void OnSliderWeigthMDFMoved                ( wxCommandEvent& event );
-    void OnSliderWeigthGeoMoved                ( wxCommandEvent& event );
-    void OnSliderWeigthOrientationMoved        ( wxCommandEvent& event );
-    void OnSliderWeigthSpatialMoved            ( wxCommandEvent& event );
-    void OnSliderWeigthLengthMoved             ( wxCommandEvent& event );
+    void OnSliderWeightMDFMoved                ( wxCommandEvent& event );
+    void OnSliderWeightGeoMoved                ( wxCommandEvent& event );
+    void OnSliderWeightOrientationMoved        ( wxCommandEvent& event );
+    void OnSliderWeightSpatialMoved            ( wxCommandEvent& event );
+    void OnSliderWeightLengthMoved             ( wxCommandEvent& event );
+    
+    void OnTextBoxThresholdFocusLost           ( wxFocusEvent& event );
+    void OnTextBoxWeightMDFFocusLost           ( wxFocusEvent& event );
+    void OnTextBoxWeightGeoFocusLost           ( wxFocusEvent& event );
+    void OnTextBoxWeightOrientationFocusLost   ( wxFocusEvent& event );
+    void OnTextBoxWeightSpatialFocusLost       ( wxFocusEvent& event );
+    void OnTextBoxWeightLengthFocusLost        ( wxFocusEvent& event );
+    
     //void OnSliderWgMoved                       ( wxCommandEvent& event );
     //void OnSliderWoMoved                       ( wxCommandEvent& event );
     //void OnSliderWsMoved                       ( wxCommandEvent& event );
@@ -63,25 +69,25 @@ private:
     wxTextCtrl          *m_pTxtThresholdBox;
     wxStaticText        *m_pTextThreshold;
 
-    wxSlider            *m_pSliderWeigthMDF;
-    wxTextCtrl          *m_pTxtWeigthMDFBox;
-    wxStaticText        *m_pTextWeigthMDF;
+    wxSlider            *m_pSliderWeightMDF;
+    wxTextCtrl          *m_pTxtWeightMDFBox;
+    wxStaticText        *m_pTextWeightMDF;
 
-    wxSlider            *m_pSliderWeigthGeo;
-    wxTextCtrl          *m_pTxtWeigthGeoBox;
-    wxStaticText        *m_pTextWeigthGeo;
+    wxSlider            *m_pSliderWeightGeo;
+    wxTextCtrl          *m_pTxtWeightGeoBox;
+    wxStaticText        *m_pTextWeightGeo;
 
-    wxSlider            *m_pSliderWeigthOrientation;
-    wxTextCtrl          *m_pTxtWeigthOrientationBox;
-    wxStaticText        *m_pTextWeigthOrientation;
+    wxSlider            *m_pSliderWeightOrientation;
+    wxTextCtrl          *m_pTxtWeightOrientationBox;
+    wxStaticText        *m_pTextWeightOrientation;
 
-    wxSlider            *m_pSliderWeigthSpatial;
-    wxTextCtrl          *m_pTxtWeigthSpatialBox;
-    wxStaticText        *m_pTextWeigthSpatial;
+    wxSlider            *m_pSliderWeightSpatial;
+    wxTextCtrl          *m_pTxtWeightSpatialBox;
+    wxStaticText        *m_pTextWeightSpatial;
 
-    wxSlider            *m_pSliderWeigthLength;
-    wxTextCtrl          *m_pTxtWeigthLengthBox;
-    wxStaticText        *m_pTextWeigthLength;
+    wxSlider            *m_pSliderWeightLength;
+    wxTextCtrl          *m_pTxtWeightLengthBox;
+    wxStaticText        *m_pTextWeightLength;
     //wxButton            *m_pBtnSelectFile;
     //wxButton            *m_pBtnSelectShell;
     //wxToggleButton      *m_pToggleShell;
