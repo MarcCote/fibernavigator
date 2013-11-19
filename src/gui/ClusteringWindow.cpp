@@ -127,19 +127,29 @@ wxSizer* ClusteringWindow::getWindowSizer()
 
 void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
 {
+    wxString msg;
+    Logger::getInstance()->print( wxT( "Clustering..." ), LOGLEVEL_MESSAGE );
     // TODO: Deactive clustering button instead
     long index = m_pMainFrame->getCurrentListIndex();
     DatasetInfo *pDatasetInfo = DatasetManager::getInstance()->getDataset(m_pMainFrame->m_pListCtrl->GetItem( index ));
 
+    if( pDatasetInfo->getType() != FIBERS && pDatasetInfo->getType() != FIBERSGROUP )
     //if( pDatasetInfo->getType() != FIBERS && pDatasetInfo->getType() != FIBERSGROUP )
-    if( pDatasetInfo->getType() != FIBERS )
         return;
     
+    wxString basename;
     vector<Fibers*> selectedFibers;
     if( pDatasetInfo->getType() == FIBERSGROUP )
+    {
         selectedFibers = DatasetManager::getInstance()->getFibers();
+        basename = wxString( "Bundle", wxConvUTF8 );
+    }
     else
+    {
         selectedFibers.push_back(DatasetManager::getInstance()->getSelectedFibers( m_pMainFrame->m_pListCtrl->GetItem( index ) ));
+        basename = selectedFibers.back()->getName();
+        basename = basename(0, basename.length()-4);
+    }
 
     AveragePointwiseMetric mdf;
     float threshold = m_pSliderThreshold->GetValue();
@@ -151,45 +161,44 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
     vector<Fibers*> bundles;
     for (int i = 0; i < clustering.getNbClusters(); ++i)
     {
-        Logger::getInstance()->print( wxT( "Next bundle info" ), LOGLEVEL_MESSAGE );
         vector<float*> points = clustering.getPoints(i);
         vector<int> lengths = clustering.getLengths(i);
         vector<float*> colors = clustering.getColors(i);
 
-        stringstream ss;
-        ss << "Bundle " << i+1 << " out of " << clustering.getNbClusters();
-        wxString name = wxString( ss.str().c_str(), wxConvUTF8 );
-        Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
+        wxString name = wxString(basename);
+        name << wxT(" #") << i+1;
 
         Fibers* bundle = new Fibers();
-
         bundle->createFrom(points, lengths, colors, name);
         bundles.push_back(bundle);
     }
 
     // Remove old Fibers objects
     vector<DatasetIndex> indices;
-    for (uint i = 0; i < selectedFibers.size(); ++i)
-        indices.push_back( DatasetManager::getInstance()->getDatasetIndex(selectedFibers[i]) );
-
-    for (uint i = 0; i < indices.size(); ++i)
+    for( uint index= m_pMainFrame->m_pListCtrl->GetItemCount()-1; index > 0 ; --index)
     {
-        Logger::getInstance()->print( wxT( "Removing one old Fibers object" ), LOGLEVEL_MESSAGE );
-        m_pMainFrame->m_pListCtrl->SelectItem( indices[i] );
-        m_pMainFrame->deleteListItem();
+        DatasetInfo* info = DatasetManager::getInstance()->getDataset( m_pMainFrame->m_pListCtrl->GetItem( index ) );
+
+        if ( info->getType() != FIBERS )
+            continue;
+
+        for (uint i = 0; i < selectedFibers.size(); ++i)
+        {
+            if ( selectedFibers[i] != NULL && ((Fibers*)info) == selectedFibers[i] )
+            {
+                m_pMainFrame->m_pListCtrl->SelectItem( index );
+                m_pMainFrame->deleteListItem();
+                break;
+            }
+        }
     }
 
     // Insert new bundles (Fibers object)
     for (int i = 0; i < clustering.getNbClusters(); ++i)
     {
-        Logger::getInstance()->print( wxT( "Creation done" ), LOGLEVEL_MESSAGE );
         DatasetIndex index = DatasetManager::getInstance()->addFibers( bundles[i] );
-        Logger::getInstance()->print( wxT( "Inserting new bundle" ), LOGLEVEL_MESSAGE );
         m_pMainFrame->m_pListCtrl->InsertItem( index );
-        Logger::getInstance()->print( wxT( "Insertion succeded" ), LOGLEVEL_MESSAGE );
     }
-
-    Logger::getInstance()->print( wxT( "Coloring...." ), LOGLEVEL_MESSAGE );
 
     // Apply different colors
     DatasetManager::getInstance()->getFibersGroup()->OnApplyDifferentColors();
@@ -202,6 +211,9 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
         //(*it)->updateFibersColors();
     }
 
+    msg.clear();
+    msg << wxT( "Found " ) << bundles.size() <<  wxT( " bundles." );
+    Logger::getInstance()->print(msg, LOGLEVEL_MESSAGE );
 }
 
 void ClusteringWindow::OnSliderThresholdMoved(wxCommandEvent& WXUNUSED(event))
