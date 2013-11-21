@@ -40,6 +40,7 @@ public:
     void OnSliderWeightOrientationMoved        ( wxCommandEvent& event );
     void OnSliderWeightSpatialMoved            ( wxCommandEvent& event );
     void OnSliderWeightLengthMoved             ( wxCommandEvent& event );
+    void OnSliderMinNbStreamlinesMoved         ( wxCommandEvent& WXUNUSED(event) );
     
     void OnTextBoxThresholdFocusLost           ( wxFocusEvent& event );
     void OnTextBoxWeightMDFFocusLost           ( wxFocusEvent& event );
@@ -47,24 +48,21 @@ public:
     void OnTextBoxWeightOrientationFocusLost   ( wxFocusEvent& event );
     void OnTextBoxWeightSpatialFocusLost       ( wxFocusEvent& event );
     void OnTextBoxWeightLengthFocusLost        ( wxFocusEvent& event );
+
+    void OnTextBoxMinNbStreamlinesFocusLost    ( wxFocusEvent& event );
     
-    //void OnSliderWgMoved                       ( wxCommandEvent& event );
-    //void OnSliderWoMoved                       ( wxCommandEvent& event );
-    //void OnSliderWsMoved                       ( wxCommandEvent& event );
-    //void OnSliderWlMoved                       ( wxCommandEvent& event );
-    //void OnSelectFileDTI                       ( wxCommandEvent& event );
     //void OnSelectMask                          ( wxCommandEvent& event );
     
     //void OnPlay                                ( wxCommandEvent& event );
     //void OnStop                                ( wxCommandEvent& event );
 
-public:
-    wxButton      *m_pBtnStart;
     //wxTextCtrl          *m_pTxtTotalSeedNbBox;
-
 
 private:
     MainFrame           *m_pMainFrame;
+
+    wxButton            *m_pBtnCluster;
+
     wxSlider            *m_pSliderThreshold;
     wxTextCtrl          *m_pTxtThresholdBox;
     wxStaticText        *m_pTextThreshold;
@@ -88,6 +86,10 @@ private:
     wxSlider            *m_pSliderWeightLength;
     wxTextCtrl          *m_pTxtWeightLengthBox;
     wxStaticText        *m_pTextWeightLength;
+
+    wxSlider            *m_pSliderMinNbStreamlines;
+    wxTextCtrl          *m_pTxtMinNbStreamlinesBox;
+    wxStaticText        *m_pTextMinNbStreamlines;
     //wxButton            *m_pBtnSelectFile;
     //wxButton            *m_pBtnSelectShell;
     //wxToggleButton      *m_pToggleShell;
