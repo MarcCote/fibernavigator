@@ -246,6 +246,8 @@ private:
     wxRadioButton  *m_pRadCurvature;
     wxRadioButton  *m_pRadTorsion;
     wxRadioButton  *m_pRadConstant;
+
+    friend class QuickBundles;
 };
 
 #endif /* FIBERS_H_ */

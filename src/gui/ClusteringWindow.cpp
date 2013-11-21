@@ -251,7 +251,7 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
         vector<int> lengths = clustering.getLengths(i);
         vector<float*> colors = clustering.getColors(i);
 
-        if( lengths.size() <= m_pSliderMinNbStreamlines->GetValue() )
+        if( lengths.size() <= (uint)m_pSliderMinNbStreamlines->GetValue() )
             continue;
 
         wxString name = wxString(basename);
@@ -277,7 +277,7 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
             if( selectedFibers[i] != NULL && ((Fibers*)info) == selectedFibers[i] )
             {
                 m_pMainFrame->m_pListCtrl->DeleteItem( index );
-                selectedFibers[i] == NULL;
+                selectedFibers[i] = NULL;
                 break;
             }
         }
@@ -287,7 +287,7 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
     // Insert new bundles (Fibers object)
     Logger::getInstance()->print( wxT( "Inserting Fibers objects..." ), LOGLEVEL_MESSAGE );
     vector<DatasetIndex> indicesToAdd;
-    for (int i = 0; i < bundles.size(); ++i)
+    for (uint i = 0; i < bundles.size(); ++i)
     {
         DatasetIndex index = DatasetManager::getInstance()->addFibers( bundles[i] );
         m_pMainFrame->m_pListCtrl->InsertItem( index );

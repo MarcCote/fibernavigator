@@ -24,9 +24,6 @@ public:
     QuickBundles( const vector<Fibers*>& bundles, Metric *pMetric, float threshold, uint nbDownsamplingPts);
     virtual ~QuickBundles();
 
-    void applyDifferentColors();
-    void colorCluster(const Cluster& cluster, const wxColor& color );
-
     int getNbClusters() const { return m_clusters.size(); }
     vector<float*>  getPoints( uint no_cluster );
     vector<int>     getLengths( uint no_cluster );
