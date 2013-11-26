@@ -1539,20 +1539,6 @@ bool Fibers::createFrom( const vector<float*>& pointsStartPtr, const vector<int>
 
         m_linePointers[i+1] = m_linePointers[i] + linesLength[i];
     }
-
-/*    m_linePointers.push_back(0);
-    for( int i = 0; i < m_countLines; ++i )
-    {
-        for( int j = 0; j < linesLength[i] * 3; ++j )
-        {
-
-            m_pointArray.push_back(pointsStartPtr[i][j]);
-            m_colorArray.push_back(colorStartPtr[i][j]);
-            m_reverse.push_back(i);
-        }
-
-        m_linePointers.push_back(m_linePointers[i] + linesLength[i]);
-    }*/
     
     createColorArray( false );
     m_type = FIBERS;

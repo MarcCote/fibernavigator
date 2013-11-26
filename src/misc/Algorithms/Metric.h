@@ -7,11 +7,31 @@
 #include <string>
 #include <vector>
 
-struct Cluster
+struct ClusterStruct
 {
     std::vector< int > indices;
     std::vector< float > centroid;
 };
+
+class Metric;
+
+class Cluster
+{
+public:
+    Cluster(Metric *pMetric);
+
+    float distance( const float *pStreamline, uint N, uint D=3 );
+    void add( uint idx, const float *pStreamline, uint N, uint D=3 );
+
+    std::vector<uint> m_indices;
+    std::vector<float> m_centroid;
+
+private:
+    Metric *m_pMetric;
+    friend class Metric;
+
+};
+
 
 /**
  * This class represents an abstract distance measure.
@@ -22,8 +42,10 @@ public:
     Metric() {}
     virtual ~Metric() {}
 
-    virtual float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false ) = 0;
-    virtual void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false ) = 0;
+    virtual vector<float> newCentroid( uint N, uint D ) = 0;
+    virtual float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D ) = 0;
+    virtual float distance( float *pCentroid, const float *pStreamline, uint N, uint D ) = 0;
+    virtual void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D ) = 0;
 
 private:
     Metric( const Metric & );
@@ -39,30 +61,35 @@ public:
     WeightedMetric() {}
     virtual ~WeightedMetric() {}
 
-    void insertMetric( Metric *metric, float weight=1.0 );
-    void deleteMetric( int noMetric );
-    void updateMetric( int noMetric, float weight );
+    void addMetric( Metric *pMetric, float weight=1.0 );
+    void removeMetric( uint idxMetric );
+    void updateMetric( uint idxMetric, float weight );
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 
 private:
-    vector<float>   m_weights;
-    vector<Metric>  m_metrics;
+    vector<float>       m_weights;
+    vector<Metric*>     m_metrics;
+    vector<uint>        m_centroidsStart;
 };
 
 
 /**
  * This class computes the average pointwise distance (aka. MDF) between two streamlines.
  */
-class AveragePointwiseMetric : public Metric
+class MDF : public Metric
 {
 public:
-    AveragePointwiseMetric() {}
-    virtual ~AveragePointwiseMetric() {}
+    MDF() {}
+    virtual ~MDF() {}
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 };
 
 /**
@@ -75,8 +102,10 @@ public:
     ShapeMetric() {}
     virtual ~ShapeMetric() {}
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 };
 
 /**
@@ -89,8 +118,10 @@ public:
     OrientationMetric() {}
     virtual ~OrientationMetric() {}
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 };
 
 /**
@@ -103,8 +134,10 @@ public:
     SpatialMetric() {}
     virtual ~SpatialMetric() {}
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 };
 
 /**
@@ -117,8 +150,10 @@ public:
     LengthMetric() {}
     virtual ~LengthMetric() {}
 
-    float distance( Cluster *cluster, float *fiber, int N, bool isFlip=false );
-    void add( float *fiber, int N, int idx, Cluster *cluster, bool isFlip=false );
+    vector<float> newCentroid( uint N, uint D );
+    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
+    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
+    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
 };
 
 #endif /* DISTANCES_H_ */

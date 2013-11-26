@@ -76,7 +76,7 @@ bool Interpolation::linear3D(float *curve, uint N, float *newCurve, uint newN)
 
     newCurve[(newN-1)*3]   = curve[(N-1)*3];
     newCurve[(newN-1)*3+1] = curve[(N-1)*3+1];
-    newCurve[(newN-1)*3+2] = curve[(N-1)*3]+2;
+    newCurve[(newN-1)*3+2] = curve[(N-1)*3+2];
 
     delete[] cumlen;
 

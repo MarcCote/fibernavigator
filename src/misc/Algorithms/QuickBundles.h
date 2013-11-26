@@ -43,7 +43,7 @@ private:
     uint m_nbDownsamplingPts;
     vector<Cluster> m_clusters;
 
-    float* m_points;
+    float *m_pPoints;
     vector<int> m_line2point;
     vector<float*> m_fibersLines;
     vector<int> m_fibersLength;

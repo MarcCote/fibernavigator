@@ -58,24 +58,12 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
 
     //Content of the clustering panel
     /********************************/
-
-    //m_pBtnSelectFile = new wxButton( this, wxID_ANY,wxT("DTI not selected"), wxPoint(30,0), wxSize(100, -1) );
-    //Connect( m_pBtnSelectFile->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnSelectFileDTI) );
-    //m_pBtnSelectFile->SetBackgroundColour(wxColour( 255, 147, 147 ));
-
-	//m_pBtnSelectShell = new wxButton( this, wxID_ANY,wxT("Shell not selected"), wxPoint(30,30), wxSize(100, -1) );
-    //Connect( m_pBtnSelectShell->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnSelectShell) );
-
-    //m_pToggleShell = new wxToggleButton( this, wxID_ANY,wxT("Shell seed OFF"), wxPoint(130,30), wxSize(100, -1) );
-    //Connect( m_pToggleShell->GetId(), wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnShellSeeding) );
-	//m_pToggleShell->Enable(false);
-
     wxBoxSizer *pBoxRow = NULL;
 
     // ---MDF---
     m_pTextWeightMDF    = new wxStaticText( this, wxID_ANY, wxT("MDF"),  wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderWeightMDF  = new MySlider(     this, wxID_ANY, 100, 0, 100, wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtWeightMDFBox  = new wxTextCtrl(   this, wxID_ANY, wxT("1.00"), wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtWeightMDFBox  = new wxTextCtrl(   this, wxID_ANY, wxT("1.00"), wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderWeightMDF->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightMDFMoved) );
     m_pTxtWeightMDFBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightMDFFocusLost, this );
 
@@ -86,22 +74,22 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
 
     // ---Geo---
-    m_pTextWeightGeo    = new wxStaticText( this, wxID_ANY, wxT("Geo"),  wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
-    m_pSliderWeightGeo  = new MySlider(     this, wxID_ANY, 0, 0, 100,   wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtWeightGeoBox  = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"), wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
-    Connect( m_pSliderWeightGeo->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightGeoMoved) );
-    m_pTxtWeightGeoBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightGeoFocusLost, this );
+    // m_pTextWeightGeo    = new wxStaticText( this, wxID_ANY, wxT("Geo"),  wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
+    // m_pSliderWeightGeo  = new MySlider(     this, wxID_ANY, 0, 0, 100,   wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
+    // m_pTxtWeightGeoBox  = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"), wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
+    // Connect( m_pSliderWeightGeo->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightGeoMoved) );
+    // m_pTxtWeightGeoBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightGeoFocusLost, this );
 
-    pBoxRow = new wxBoxSizer( wxHORIZONTAL );
-    pBoxRow->Add( m_pTextWeightGeo,     0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
-    pBoxRow->Add( m_pSliderWeightGeo,   0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
-    pBoxRow->Add( m_pTxtWeightGeoBox,   0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
-    m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
+    // pBoxRow = new wxBoxSizer( wxHORIZONTAL );
+    // pBoxRow->Add( m_pTextWeightGeo,     0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    // pBoxRow->Add( m_pSliderWeightGeo,   0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    // pBoxRow->Add( m_pTxtWeightGeoBox,   0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    // m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
 
     // ---Orientation---
     m_pTextWeightOrientation    = new wxStaticText( this, wxID_ANY, wxT("Orientation"), wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderWeightOrientation  = new MySlider(     this, wxID_ANY, 0, 0, 100,          wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtWeightOrientationBox  = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"),        wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtWeightOrientationBox  = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"),        wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderWeightOrientation->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightOrientationMoved) );
     m_pTxtWeightOrientationBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightOrientationFocusLost, this );
 
@@ -114,7 +102,7 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     // ---Spatial---
     m_pTextWeightSpatial    = new wxStaticText( this, wxID_ANY, wxT("Spatial"), wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderWeightSpatial  = new MySlider( this, wxID_ANY, 0, 0, 100,        wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtWeightSpatialBox  = new wxTextCtrl( this, wxID_ANY, wxT("0.00"),    wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtWeightSpatialBox  = new wxTextCtrl( this, wxID_ANY, wxT("0.00"),    wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderWeightSpatial->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightSpatialMoved) );
     m_pTxtWeightSpatialBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightSpatialFocusLost, this );
 
@@ -127,7 +115,7 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     // ---Length---
     m_pTextWeightLength     = new wxStaticText( this, wxID_ANY, wxT("Length"), wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderWeightLength   = new MySlider(     this, wxID_ANY, 0, 0, 100,     wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtWeightLengthBox   = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"),   wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtWeightLengthBox   = new wxTextCtrl(   this, wxID_ANY, wxT("0.00"),   wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderWeightLength->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderWeightLengthMoved) );
     m_pTxtWeightLengthBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxWeightLengthFocusLost, this );
 
@@ -144,7 +132,7 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     // ---Threshold---
     m_pTextThreshold    = new wxStaticText( this, wxID_ANY, wxT("Threshold"), wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderThreshold  = new MySlider(     this, wxID_ANY, 200, 0, 1000,     wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtThresholdBox  = new wxTextCtrl(   this, wxID_ANY, wxT("20.0"),      wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtThresholdBox  = new wxTextCtrl(   this, wxID_ANY, wxT("20.0"),      wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderThreshold->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderThresholdMoved) );
     m_pTxtThresholdBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxThresholdFocusLost, this );
 
@@ -157,7 +145,7 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     // ---Min Nb. Streamlines per bundle---
     m_pTextMinNbStreamlines     = new wxStaticText( this, wxID_ANY, wxT("Min Bundle Size"), wxDefaultPosition, wxSize(60, -1),  wxALIGN_CENTER );
     m_pSliderMinNbStreamlines   = new MySlider(     this, wxID_ANY, 0, 0, 100,              wxDefaultPosition, wxSize(130, -1), wxSL_HORIZONTAL | wxSL_AUTOTICKS );
-    m_pTxtMinNbStreamlinesBox   = new wxTextCtrl(   this, wxID_ANY, wxT("0"),               wxDefaultPosition, wxSize(55, -1),  wxTE_CENTRE );
+    m_pTxtMinNbStreamlinesBox   = new wxTextCtrl(   this, wxID_ANY, wxT("0"),               wxDefaultPosition, wxSize(50, -1),  wxTE_CENTRE );
     Connect( m_pSliderMinNbStreamlines->GetId(), wxEVT_COMMAND_SLIDER_UPDATED, wxCommandEventHandler(ClusteringWindow::OnSliderMinNbStreamlinesMoved) );
     m_pTxtMinNbStreamlinesBox->Connect(wxEVT_KILL_FOCUS, (wxObjectEventFunction)&ClusteringWindow::OnTextBoxMinNbStreamlinesFocusLost, this );
 
@@ -168,11 +156,33 @@ ClusteringWindow::ClusteringWindow( wxWindow *pParent, MainFrame *pMf, wxWindowI
     m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
 
     // ---Clustering Button---
-    m_pBtnCluster = new wxButton( this, wxID_ANY,wxT("Do clustering"), wxDefaultPosition, wxSize(230, -1) );
-    Connect( m_pBtnCluster->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnDoClustering) );
+    m_pBtnCluster = new wxButton( this, wxID_ANY,wxT("Cluster file(s)"), wxDefaultPosition, wxSize(230, -1) );
+    Connect( m_pBtnCluster->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnClusterFile) );
 
     pBoxRow = new wxBoxSizer( wxHORIZONTAL );
     pBoxRow->Add( m_pBtnCluster, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
+
+    pBoxRow = new wxBoxSizer( wxHORIZONTAL );
+    pBoxRow->Add( new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxSize(230, -1) ), 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
+
+    // ---Cluster visible---
+    m_pBtnClusterVisible = new wxButton( this, wxID_ANY,wxT("Cluster visible"), wxDefaultPosition, wxSize(115, -1) );
+    Connect( m_pBtnClusterVisible->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnClusterVisible) );
+
+    // ---Cluster selected streamlines---
+    // m_pBtnClusterSelected = new wxButton( this, wxID_ANY,wxT("Cluster selected"), wxDefaultPosition, wxSize(115, -1) );
+    // Connect( m_pBtnClusterSelected->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(ClusteringWindow::OnClusterSelected) );
+
+    // ---Merge Button Shortcut---
+    //m_pBtnMergeVisible = new wxButton( this, wxID_ANY,wxT("Merge visible"), wxDefaultPosition, wxSize(230, -1) );
+    //Connect( m_pBtnMergeVisible->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(PropertiesWindow::OnMergeVisibleFibers) );
+    
+    pBoxRow = new wxBoxSizer( wxHORIZONTAL );
+    pBoxRow->Add( m_pBtnClusterVisible, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    //pBoxRow->Add( m_pBtnClusterSelected, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
+    //pBoxRow->Add( m_pBtnMergeVisible, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 1);
     m_pClusteringSizer->Add( pBoxRow, 0, wxFIXED_MINSIZE | wxALL, 2 );
 
 }
@@ -190,27 +200,112 @@ wxSizer* ClusteringWindow::getWindowSizer()
     return m_pClusteringSizer;
 }
 
-void ClusteringWindow::OnTextBoxThresholdFocusLost(wxFocusEvent& event)
+void ClusteringWindow::doClustering( vector<Fibers*> selectedFibers, wxString basename )
 {
-    ClusteringWindow *self = (ClusteringWindow*)event.m_callbackUserData;
-    wxString txt = self->m_pTxtThresholdBox->GetValue();
+    // Get weights.
+    WeightedMetric metric;
+    MDF mdf;
+    //ShapeMetric shapeMetric;
+    OrientationMetric orientationMetric;
+    SpatialMetric spatialMetric;
+    LengthMetric lengthMetric;
 
-    double value;
+    float weightMDF         = m_pSliderWeightMDF->GetValue()         / 100.0;
+    //float weightShape       = m_pSliderWeightGeo->GetValue()       / 100.0;
+    float weightOrientation = m_pSliderWeightOrientation->GetValue() / 100.0;
+    float weightSpatial     = m_pSliderWeightSpatial->GetValue()     / 100.0;
+    float weightLength      = m_pSliderWeightLength->GetValue()      / 100.0;
 
-    if( !txt.ToDouble(&value) )
-        self->m_pTxtThresholdBox->ChangeValue( wxString::Format( wxT( "%.1f"), self->m_pSliderThreshold->GetValue() / 10.0 ) );
+    metric.addMetric( &mdf,               weightMDF );
+    //metric.addMetric( &shapeMetric,       weightShape );
+    metric.addMetric( &orientationMetric, weightOrientation );
+    metric.addMetric( &spatialMetric,     weightSpatial );
+    metric.addMetric( &lengthMetric,      weightLength );
 
-    value = std::min(value, MAX_THRESHOLD);
-    value = std::max(value, 0.0);
+    float threshold = m_pSliderThreshold->GetValue() / 10.0;
+    
+    // Do the actual clustering.
+    QuickBundles clustering(selectedFibers, &metric, threshold, 18);
 
-    self->m_pSliderThreshold->SetValue(value * 10);
-    self->m_pTxtThresholdBox->ChangeValue( wxString::Format( wxT( "%.1f"), value ) );
+    // Create each bundle that has been found by the clustering algorithm.
+    Logger::getInstance()->print( wxT( "Creating Fibers objects..." ), LOGLEVEL_DEBUG );
+    vector<Fibers*> bundles;
+    uint noBundle = 1;
+    for( int i = 0; i < clustering.getNbClusters(); ++i )
+    {
+        vector<float*> points = clustering.getPoints(i);
+        vector<int> lengths = clustering.getLengths(i);
+        vector<float*> colors = clustering.getColors(i);
+
+        if( lengths.size() <= (uint)m_pSliderMinNbStreamlines->GetValue() )
+        {
+            continue;
+        }
+
+        wxString name = wxString(basename);
+        name << wxT(" #") << noBundle << wxT(".trk");
+
+        Fibers *pBundle = new Fibers();
+        pBundle->createFrom(points, lengths, colors, name);
+        bundles.push_back(pBundle);
+        ++noBundle;
+    }
+
+    Logger::getInstance()->print( wxT( "Removing Fibers objects..." ), LOGLEVEL_DEBUG );
+    // Remove old Fibers objects
+    for( uint index= m_pMainFrame->m_pListCtrl->GetItemCount()-1; index > 0; --index )
+    {
+        DatasetInfo* pDatasetInfo = DatasetManager::getInstance()->getDataset( m_pMainFrame->m_pListCtrl->GetItem( index ) );
+
+        if( pDatasetInfo->getType() != FIBERS )
+        {
+            continue;
+        }
+
+        for( uint i = 0; i < selectedFibers.size(); ++i )
+        {
+            if( selectedFibers[i] != NULL && ((Fibers*)pDatasetInfo) == selectedFibers[i] )
+            {
+                m_pMainFrame->m_pListCtrl->DeleteItem( index );
+                selectedFibers[i] = NULL;
+                break;
+            }
+        }
+    }
+
+    // Insert new bundles (Fibers object)
+    Logger::getInstance()->print( wxT( "Inserting Fibers objects..." ), LOGLEVEL_DEBUG );
+    vector<DatasetIndex> indicesToAdd;
+    for( uint i = 0; i < bundles.size(); ++i )
+    {
+        DatasetIndex index = DatasetManager::getInstance()->addFibers( bundles[i] );
+        m_pMainFrame->m_pListCtrl->InsertItem( index );
+    }
+
+
+    // Apply different colors
+    Logger::getInstance()->print( wxT( "Coloring Fibers objects..." ), LOGLEVEL_DEBUG );
+    DatasetManager::getInstance()->getFibersGroup()->OnApplyDifferentColors();
+    for( vector<Fibers *>::const_iterator it = bundles.begin(); it != bundles.end(); ++it )
+    {
+        (*it)->setColorationMode( CONSTANT_COLOR );
+        (*it)->updateColorationMode();
+        (*it)->setThreshold( 1 );  // Ugly patch in order to force an updateFibersColors by the Fibers::draw function.
+        //(*it)->updateFibersColors();
+    }
+
+    // Select the Fibersgroups object
+    //DatasetIndex indexFibersgroup = DatasetManager::getInstance()->getDatasetIndex( DatasetManager::getInstance()->getFibersGroup() );
+    m_pMainFrame->m_pListCtrl->SelectItem( m_pMainFrame->m_pListCtrl->FindFiberGroupPosition() );
+
+    stringstream ss;
+    ss << "Found " << bundles.size() << " bundles.";
+    Logger::getInstance()->print( wxString( ss.str().c_str(), wxConvUTF8 ), LOGLEVEL_MESSAGE );
 }
 
-void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
+void ClusteringWindow::OnClusterFile( wxCommandEvent& WXUNUSED(event) )
 {
-    wxString msg;
-    Logger::getInstance()->print( wxT( "Clustering..." ), LOGLEVEL_MESSAGE );
+    Logger::getInstance()->print( wxT( "Clustering selected file..." ), LOGLEVEL_MESSAGE );
     
     if( m_pMainFrame->getCurrentListIndex() == -1 )
         return;   // TODO: Deactive clustering button instead
@@ -236,83 +331,86 @@ void ClusteringWindow::OnDoClustering( wxCommandEvent& WXUNUSED(event) )
         basename = basename(0, basename.length()-4);
     }
 
-    // Do the actual clustering.
-    AveragePointwiseMetric mdf;
-    float threshold = m_pSliderThreshold->GetValue() / 10.0;
-    QuickBundles clustering(selectedFibers, &mdf, threshold, 18);
+    doClustering( selectedFibers, basename );
+}
 
-    // Create each bundle that has been found by the clustering algorithm.
-    Logger::getInstance()->print( wxT( "Creating Fibers objects..." ), LOGLEVEL_MESSAGE );
-    vector<Fibers*> bundles;
-    uint noBundle = 1;
-    for (int i = 0; i < clustering.getNbClusters(); ++i)
+void ClusteringWindow::OnClusterVisible( wxCommandEvent& WXUNUSED(event) )
+{
+    Logger::getInstance()->print( wxT( "Clustering visible..." ), LOGLEVEL_MESSAGE );
+    
+    if( m_pMainFrame->getCurrentListIndex() == -1 )
+        return;   // TODO: Deactive clustering button instead
+
+    DatasetIndex idx =m_pMainFrame->m_pListCtrl->GetItem( m_pMainFrame->getCurrentListIndex() );
+    DatasetInfo *pDatasetInfo = DatasetManager::getInstance()->getDataset( idx );
+
+    if( pDatasetInfo->getType() != FIBERS && pDatasetInfo->getType() != FIBERSGROUP )
+        return;  // TODO: Deactive clustering button instead
+    
+    wxString basename = wxString( "Bundle", wxConvUTF8 );
+    vector<Fibers*> bundles = DatasetManager::getInstance()->getFibers();
+    vector<Fibers*> selectedFibers;
+
+    for( std::vector<Fibers*>::iterator it = bundles.begin(); it != bundles.end(); ++it )
     {
-        vector<float*> points = clustering.getPoints(i);
-        vector<int> lengths = clustering.getLengths(i);
-        vector<float*> colors = clustering.getColors(i);
-
-        if( lengths.size() <= (uint)m_pSliderMinNbStreamlines->GetValue() )
-            continue;
-
-        wxString name = wxString(basename);
-        name << wxT(" #") << noBundle;
-
-        Fibers* bundle = new Fibers();
-        bundle->createFrom(points, lengths, colors, name);
-        bundles.push_back(bundle);
-        ++noBundle;
-    }
-
-    Logger::getInstance()->print( wxT( "Removing Fibers objects..." ), LOGLEVEL_MESSAGE );
-    // Remove old Fibers objects
-    for( uint index= m_pMainFrame->m_pListCtrl->GetItemCount()-1; index > 0; --index )
-    {
-        DatasetInfo* info = DatasetManager::getInstance()->getDataset( m_pMainFrame->m_pListCtrl->GetItem( index ) );
-
-        if ( info->getType() != FIBERS )
-            continue;
-
-        for( uint i = 0; i < selectedFibers.size(); ++i )
+        if( (*it)->getShow() )
         {
-            if( selectedFibers[i] != NULL && ((Fibers*)info) == selectedFibers[i] )
-            {
-                m_pMainFrame->m_pListCtrl->DeleteItem( index );
-                selectedFibers[i] = NULL;
-                break;
-            }
+            selectedFibers.push_back(*it);
         }
     }
+    
 
+    doClustering( selectedFibers, basename );
+}
 
-    // Insert new bundles (Fibers object)
-    Logger::getInstance()->print( wxT( "Inserting Fibers objects..." ), LOGLEVEL_MESSAGE );
-    vector<DatasetIndex> indicesToAdd;
-    for (uint i = 0; i < bundles.size(); ++i)
+void ClusteringWindow::OnClusterSelected( wxCommandEvent& WXUNUSED(event) )
+{
+    Logger::getInstance()->print( wxT( "Clustering selected streamlines..." ), LOGLEVEL_MESSAGE );
+    
+    if( m_pMainFrame->getCurrentListIndex() == -1 )
+        return;   // TODO: Deactive clustering button instead
+
+    DatasetIndex idx =m_pMainFrame->m_pListCtrl->GetItem( m_pMainFrame->getCurrentListIndex() );
+    DatasetInfo *pDatasetInfo = DatasetManager::getInstance()->getDataset( idx );
+
+    if( pDatasetInfo->getType() != FIBERS && pDatasetInfo->getType() != FIBERSGROUP )
+        return;  // TODO: Deactive clustering button instead
+    
+    wxString basename;
+    vector<Fibers*> selectedFibers;
+    // Check if we are clustering all streamlines or only a few.
+    if( pDatasetInfo->getType() == FIBERSGROUP )
     {
-        DatasetIndex index = DatasetManager::getInstance()->addFibers( bundles[i] );
-        m_pMainFrame->m_pListCtrl->InsertItem( index );
+        selectedFibers = DatasetManager::getInstance()->getFibers();
+        basename = wxString( "Bundle", wxConvUTF8 );
+    }
+    else
+    {
+        selectedFibers.push_back( DatasetManager::getInstance()->getSelectedFibers( idx ) );
+        basename = selectedFibers.back()->getName();
+        basename = basename(0, basename.length()-4);
     }
 
+    doClustering( selectedFibers, basename );
+}
 
-    // Apply different colors
-    Logger::getInstance()->print( wxT( "Coloring Fibers objects..." ), LOGLEVEL_MESSAGE );
-    DatasetManager::getInstance()->getFibersGroup()->OnApplyDifferentColors();
-    for( vector<Fibers *>::const_iterator it = bundles.begin(); it != bundles.end(); ++it )
+void ClusteringWindow::OnTextBoxThresholdFocusLost(wxFocusEvent& event)
+{
+    ClusteringWindow *self = (ClusteringWindow*)event.m_callbackUserData;
+    wxString txt = self->m_pTxtThresholdBox->GetValue();
+
+    double value;
+
+    if( !txt.ToDouble(&value) )
     {
-        (*it)->setColorationMode( CONSTANT_COLOR );
-        (*it)->updateColorationMode();
-        //(*it)->updatePropertiesSizer(); //Don't need this after all.
-        (*it)->setThreshold( 1 );  // Ugly patch in order to force an updateFibersColors by the Fibers::draw function.
-        //(*it)->updateFibersColors();
+        self->m_pTxtThresholdBox->ChangeValue( wxString::Format( wxT( "%.1f"), self->m_pSliderThreshold->GetValue() / 10.0 ) );
     }
 
-    // Select the Fibersgroups object
-    DatasetIndex indexFibersgroup = DatasetManager::getInstance()->getDatasetIndex( DatasetManager::getInstance()->getFibersGroup() );
-    m_pMainFrame->m_pListCtrl->SelectItem( indexFibersgroup );
+    value = std::min(value, MAX_THRESHOLD);
+    value = std::max(value, 0.0);
 
-    msg.clear();
-    msg << wxT( "Found " ) << bundles.size() <<  wxT( " bundles." );
-    Logger::getInstance()->print(msg, LOGLEVEL_MESSAGE );
+    self->m_pSliderThreshold->SetValue(value * 10);
+    self->m_pTxtThresholdBox->ChangeValue( wxString::Format( wxT( "%.1f"), value ) );
 }
 
 void ClusteringWindow::OnTextBoxWeightMDFFocusLost(wxFocusEvent& event)
@@ -323,7 +421,9 @@ void ClusteringWindow::OnTextBoxWeightMDFFocusLost(wxFocusEvent& event)
     double value;
 
     if( !txt.ToDouble(&value) )
+    {
         self->m_pTxtWeightMDFBox->ChangeValue( wxString::Format( wxT( "%.2f"), self->m_pSliderWeightMDF->GetValue() / 100.0 ) );
+    }
 
     value = std::min(value, MAX_WEIGHT_MDF);
     value = std::max(value, 0.0);
@@ -340,7 +440,9 @@ void ClusteringWindow::OnTextBoxWeightGeoFocusLost(wxFocusEvent& event)
     double value;
 
     if( !txt.ToDouble(&value) )
+    {
         self->m_pTxtWeightGeoBox->ChangeValue( wxString::Format( wxT( "%.2f"), self->m_pSliderWeightGeo->GetValue() / 100.0 ) );
+    }
 
     value = std::min(value, MAX_WEIGHT_GEO);
     value = std::max(value, 0.0);
@@ -357,7 +459,9 @@ void ClusteringWindow::OnTextBoxWeightOrientationFocusLost(wxFocusEvent& event)
     double value;
 
     if( !txt.ToDouble(&value) )
+    {
         self->m_pTxtWeightOrientationBox->ChangeValue( wxString::Format( wxT( "%.2f"), self->m_pSliderWeightOrientation->GetValue() / 100.0 ) );
+    }
 
     value = std::min(value, MAX_WEIGHT_ORIENTATION);
     value = std::max(value, 0.0);
@@ -374,7 +478,9 @@ void ClusteringWindow::OnTextBoxWeightSpatialFocusLost(wxFocusEvent& event)
     double value;
 
     if( !txt.ToDouble(&value) )
+    {
         self->m_pTxtWeightSpatialBox->ChangeValue( wxString::Format( wxT( "%.2f"), self->m_pSliderWeightSpatial->GetValue() / 100.0 ) );
+    }
 
     value = std::min(value, MAX_WEIGHT_SPATIAL);
     value = std::max(value, 0.0);
@@ -391,7 +497,9 @@ void ClusteringWindow::OnTextBoxWeightLengthFocusLost(wxFocusEvent& event)
     double value;
 
     if( !txt.ToDouble(&value) )
+    {
         self->m_pTxtWeightLengthBox->ChangeValue( wxString::Format( wxT( "%.2f"), self->m_pSliderWeightLength->GetValue() / 100.0 ) );
+    }
 
     value = std::min(value, MAX_WEIGHT_LENGTH);
     value = std::max(value, 0.0);
@@ -408,7 +516,9 @@ void ClusteringWindow::OnTextBoxMinNbStreamlinesFocusLost(wxFocusEvent& event)
     long value;
 
     if( !txt.ToLong(&value) )
+    {
         self->m_pTxtMinNbStreamlinesBox->ChangeValue( wxString::Format( wxT( "%d"), self->m_pSliderMinNbStreamlines->GetValue() ) );
+    }
 
     value = std::min(value, MAX_MIN_NB_STREAMLINES);
     value = std::max(value, 0L);
@@ -458,29 +568,3 @@ void ClusteringWindow::OnSliderMinNbStreamlinesMoved(wxCommandEvent& WXUNUSED(ev
     long sliderValue = m_pSliderMinNbStreamlines->GetValue();
     m_pTxtMinNbStreamlinesBox->ChangeValue( wxString::Format( wxT( "%d"), sliderValue ) );
 }
-
-
-/*void ClusteringWindow::OnPlay( wxCommandEvent& WXUNUSED(event) )
-{
-    ClusteringHelper::getInstance()->setTrackAction(true);
-    ClusteringHelper::getInstance()->togglePlayStop();
-    if(!ClusteringHelper::getInstance()->isTrackActionPaused())
-    {
-        m_pPlayPause->SetBitmapLabel(m_bmpPause);
-        m_pMainFrame->setTimerSpeed();
-    }
-    else
-    {
-        m_pPlayPause->SetBitmapLabel(m_bmpPlay);
-        m_pMainFrame->setTimerSpeed();
-    }
-}
-
-void ClusteringWindow::OnStop( wxCommandEvent& WXUNUSED(event) )
-{
-    m_pMainFrame->m_pMainGL->m_pClusteredFibers->m_trackActionStep = 0;
-    ClusteringHelper::getInstance()->setTrackAction(false);
-    ClusteringHelper::getInstance()->setTrackActionPause(true);
-    m_pPlayPause->SetBitmapLabel(m_bmpPlay);
-    m_pMainFrame->setTimerSpeed();
-}*/

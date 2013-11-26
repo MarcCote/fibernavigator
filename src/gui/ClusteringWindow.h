@@ -31,8 +31,12 @@ public:
     void OnPaint( wxPaintEvent &event );
     void OnSize( wxSizeEvent &event );
     wxSizer* getWindowSizer();
+    
+    void doClustering( vector<Fibers*> selectedFibers, wxString basename );
 
-    void OnDoClustering                        ( wxCommandEvent& event );
+    void OnClusterFile                         ( wxCommandEvent& event );
+    void OnClusterSelected                     ( wxCommandEvent& event );
+    void OnClusterVisible                      ( wxCommandEvent& event );
 
     void OnSliderThresholdMoved                ( wxCommandEvent& event );
     void OnSliderWeightMDFMoved                ( wxCommandEvent& event );
@@ -40,7 +44,7 @@ public:
     void OnSliderWeightOrientationMoved        ( wxCommandEvent& event );
     void OnSliderWeightSpatialMoved            ( wxCommandEvent& event );
     void OnSliderWeightLengthMoved             ( wxCommandEvent& event );
-    void OnSliderMinNbStreamlinesMoved         ( wxCommandEvent& WXUNUSED(event) );
+    void OnSliderMinNbStreamlinesMoved         ( wxCommandEvent& event );
     
     void OnTextBoxThresholdFocusLost           ( wxFocusEvent& event );
     void OnTextBoxWeightMDFFocusLost           ( wxFocusEvent& event );
@@ -48,20 +52,15 @@ public:
     void OnTextBoxWeightOrientationFocusLost   ( wxFocusEvent& event );
     void OnTextBoxWeightSpatialFocusLost       ( wxFocusEvent& event );
     void OnTextBoxWeightLengthFocusLost        ( wxFocusEvent& event );
-
     void OnTextBoxMinNbStreamlinesFocusLost    ( wxFocusEvent& event );
-    
-    //void OnSelectMask                          ( wxCommandEvent& event );
-    
-    //void OnPlay                                ( wxCommandEvent& event );
-    //void OnStop                                ( wxCommandEvent& event );
-
-    //wxTextCtrl          *m_pTxtTotalSeedNbBox;
 
 private:
     MainFrame           *m_pMainFrame;
 
     wxButton            *m_pBtnCluster;
+    //wxButton            *m_pBtnMergeVisible;
+    wxButton            *m_pBtnClusterVisible;
+    wxButton            *m_pBtnClusterSelected;
 
     wxSlider            *m_pSliderThreshold;
     wxTextCtrl          *m_pTxtThresholdBox;
