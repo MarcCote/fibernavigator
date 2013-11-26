@@ -47,6 +47,8 @@ public:
     void SetMaxSize( const wxSize &size )           { wxListCtrl::SetMaxSize( size ); }
     void SetMinSize( const wxSize &size )           { wxListCtrl::SetMinSize( size ); }
 
+    long FindFiberGroupPosition();
+
     // Events
     void onActivate( wxListEvent& evt );
     void onLeftClick( wxMouseEvent& evt );
@@ -57,8 +59,6 @@ public:
 private:
     ListCtrl( const ListCtrl & );
     ListCtrl & operator= ( const ListCtrl & );
-
-    long FindFiberGroupPosition();
     void Swap( long i, long j );
     void Update( long index );
 
