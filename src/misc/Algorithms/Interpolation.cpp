@@ -7,13 +7,13 @@ using std::stringstream;
 
 #include <cmath>
 
-bool Interpolation::linear3D(float *curve, uint N, float *newCurve, uint newN)
+bool Interpolation::linear3D(float *curve, unsigned int N, float *newCurve, unsigned int newN)
 {
     float* cumlen = new float[N];
     cumlen[0] = 0.0;
     int idx = 0;
     stringstream ss;
-    for( uint i = 0; i < (N-1)*3; i+=3 )
+    for( unsigned int i = 0; i < (N-1)*3; i+=3 )
     {
         float dx = curve[(i+3)]   - curve[i];
         float dy = curve[(i+3)+1] - curve[i+1];
@@ -33,7 +33,7 @@ bool Interpolation::linear3D(float *curve, uint N, float *newCurve, uint newN)
     float nextPoint = 0.0;
     int i = 0;
     int j = 0;
-    for( uint k = 0; k < N-1; ++k )
+    for( unsigned int k = 0; k < N-1; ++k )
     {
         if (cumlen[k] == nextPoint)
         {

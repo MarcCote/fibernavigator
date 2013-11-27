@@ -230,14 +230,14 @@ void ClusteringWindow::doClustering( vector<Fibers*> selectedFibers, wxString ba
     // Create each bundle that has been found by the clustering algorithm.
     Logger::getInstance()->print( wxT( "Creating Fibers objects..." ), LOGLEVEL_DEBUG );
     vector<Fibers*> bundles;
-    uint noBundle = 1;
+    unsigned int noBundle = 1;
     for( int i = 0; i < clustering.getNbClusters(); ++i )
     {
         vector<float*> points = clustering.getPoints(i);
         vector<int> lengths = clustering.getLengths(i);
         vector<float*> colors = clustering.getColors(i);
 
-        if( lengths.size() <= (uint)m_pSliderMinNbStreamlines->GetValue() )
+        if( lengths.size() <= (unsigned int)m_pSliderMinNbStreamlines->GetValue() )
         {
             continue;
         }
@@ -253,7 +253,7 @@ void ClusteringWindow::doClustering( vector<Fibers*> selectedFibers, wxString ba
 
     Logger::getInstance()->print( wxT( "Removing Fibers objects..." ), LOGLEVEL_DEBUG );
     // Remove old Fibers objects
-    for( uint index= m_pMainFrame->m_pListCtrl->GetItemCount()-1; index > 0; --index )
+    for( unsigned int index= m_pMainFrame->m_pListCtrl->GetItemCount()-1; index > 0; --index )
     {
         DatasetInfo* pDatasetInfo = DatasetManager::getInstance()->getDataset( m_pMainFrame->m_pListCtrl->GetItem( index ) );
 
@@ -262,7 +262,7 @@ void ClusteringWindow::doClustering( vector<Fibers*> selectedFibers, wxString ba
             continue;
         }
 
-        for( uint i = 0; i < selectedFibers.size(); ++i )
+        for( unsigned int i = 0; i < selectedFibers.size(); ++i )
         {
             if( selectedFibers[i] != NULL && ((Fibers*)pDatasetInfo) == selectedFibers[i] )
             {
@@ -276,7 +276,7 @@ void ClusteringWindow::doClustering( vector<Fibers*> selectedFibers, wxString ba
     // Insert new bundles (Fibers object)
     Logger::getInstance()->print( wxT( "Inserting Fibers objects..." ), LOGLEVEL_DEBUG );
     vector<DatasetIndex> indicesToAdd;
-    for( uint i = 0; i < bundles.size(); ++i )
+    for( unsigned int i = 0; i < bundles.size(); ++i )
     {
         DatasetIndex index = DatasetManager::getInstance()->addFibers( bundles[i] );
         m_pMainFrame->m_pListCtrl->InsertItem( index );

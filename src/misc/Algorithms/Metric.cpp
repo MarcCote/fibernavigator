@@ -12,12 +12,12 @@ using namespace std;
 
 
 /***  Utils  ***/
-float arcLength( const float *pStreamline, uint N, uint D )
+float arcLength( const float *pStreamline, unsigned int N, unsigned int D )
 {
     float arcLength = 0.0;
     float dx, dy, dz;
 
-    for( uint i=D; i < N*D; i+=D )
+    for( unsigned int i=D; i < N*D; i+=D )
     {
         dx = pStreamline[i]   - pStreamline[(i-D)];
         dy = pStreamline[i+1] - pStreamline[(i-D)+1];
@@ -28,12 +28,12 @@ float arcLength( const float *pStreamline, uint N, uint D )
     return arcLength;
 }
 
-float cosineDistance( const float *v1, const float *v2, uint D, bool alwaysPositve=true )
+float cosineDistance( const float *v1, const float *v2, unsigned int D, bool alwaysPositve=true )
 {
     float n_v1 = 0.0;
     float n_v2 = 0.0;
     float d = 0.0;
-    for( uint i= 0; i < D; ++i )
+    for( unsigned int i= 0; i < D; ++i )
     {
         d    += v1[i] * v2[i];
         n_v1 += v1[i] * v1[i];
@@ -50,13 +50,13 @@ float cosineDistance( const float *v1, const float *v2, uint D, bool alwaysPosit
     return acos(d) / PI;
 }
 
-void curvature( const float *pStreamline, uint N, uint D, float *pCurvature, bool isFlip=false )
+void curvature( const float *pStreamline, unsigned int N, unsigned int D, float *pCurvature, bool isFlip=false )
 {
     // Compute a proxy for curvature at each point
     float v1[3], v2[3];
     int idx;
 
-    for( uint i= 0; i < (N-2)*D; i+=3 )
+    for( unsigned int i= 0; i < (N-2)*D; i+=3 )
     {
         idx = (isFlip)? (N-3)*D -i : i;
         v1[0] = pStreamline[idx]   - pStreamline[(idx+D)];
@@ -71,7 +71,7 @@ void curvature( const float *pStreamline, uint N, uint D, float *pCurvature, boo
     }
 }
 
-bool isFlip( const float *pStreamline1, uint N1, const float *pStreamline2, uint D )
+bool isFlip( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int D )
 {
     // Check if pStreamline1 is flip compare to the pStreamline2.
     float dx, dy, dz;
@@ -91,13 +91,13 @@ bool isFlip( const float *pStreamline1, uint N1, const float *pStreamline2, uint
     return endpointDist > endpointDistFlip;
 }
 
-float AveragePointwiseDistance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D, bool isFlip=false )
+float AveragePointwiseDistance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D, bool isFlip=false )
 {
     float d = 0.0;
     float dx, dy, dz;
     int idx;
 
-    for( uint i=0; i < N2*D; i+=D )
+    for( unsigned int i=0; i < N2*D; i+=D )
     {
         idx = (isFlip)? (N2-1)*D -i : i;
         dx = pStreamline1[i]   - pStreamline2[idx];
@@ -115,12 +115,12 @@ Cluster::Cluster(Metric *pMetric)
 :m_pMetric(pMetric)
 {}
 
-float Cluster::distance( const float *pStreamline, uint N, uint D )
+float Cluster::distance( const float *pStreamline, unsigned int N, unsigned int D )
 {
     return m_pMetric->distance( &m_centroid[0], pStreamline, N, D );
 }
 
-void Cluster::add( uint idx, const float *pStreamline, uint N, uint D )
+void Cluster::add( unsigned int idx, const float *pStreamline, unsigned int N, unsigned int D )
 {
     if( m_indices.size() == 0 )
     {
@@ -142,18 +142,18 @@ void WeightedMetric::addMetric( Metric *pMetric, float weight )
     }
 }
 
-void WeightedMetric::removeMetric( uint idxMetric )
+void WeightedMetric::removeMetric( unsigned int idxMetric )
 {
     m_metrics.erase(m_metrics.begin() + idxMetric);
     m_weights.erase(m_weights.begin() + idxMetric);
 }
 
-void WeightedMetric::updateMetric( uint idxMetric, float weight )
+void WeightedMetric::updateMetric( unsigned int idxMetric, float weight )
 {
     m_weights[idxMetric] = weight;
 }
 
-vector<float> WeightedMetric::newCentroid( uint N, uint D )
+vector<float> WeightedMetric::newCentroid( unsigned int N, unsigned int D )
 {
     vector<float> newCentroid;
     m_centroidsStart.push_back( 0 );
@@ -168,11 +168,11 @@ vector<float> WeightedMetric::newCentroid( uint N, uint D )
     return newCentroid;
 }
 
-float WeightedMetric::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float WeightedMetric::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     float dist = 0.0;
 
-    for( uint i= 0; i < m_metrics.size(); ++i )
+    for( unsigned int i= 0; i < m_metrics.size(); ++i )
     {
         float metricDist = m_metrics[i]->distance( pStreamline1, N1, pStreamline2, N2, D );
         dist += m_weights[i] * metricDist;
@@ -181,11 +181,11 @@ float WeightedMetric::distance( const float *pStreamline1, uint N1, const float 
     return dist;
 }
 
-float WeightedMetric::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float WeightedMetric::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float dist = 0.0;
 
-    for( uint i= 0; i < m_metrics.size(); ++i )
+    for( unsigned int i= 0; i < m_metrics.size(); ++i )
     {
         float metricDist = m_metrics[i]->distance( &pCentroid[m_centroidsStart[i]], pStreamline, N, D );
         dist += m_weights[i] * metricDist;
@@ -194,9 +194,9 @@ float WeightedMetric::distance( float *pCentroid, const float *pStreamline, uint
     return dist;
 }
 
-void WeightedMetric::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void WeightedMetric::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
-    for( uint i= 0; i < m_metrics.size(); ++i )
+    for( unsigned int i= 0; i < m_metrics.size(); ++i )
     {
         m_metrics[i]->add( &pCentroid[m_centroidsStart[i]], clusterSize, pStreamline, N, D );
     }
@@ -204,12 +204,12 @@ void WeightedMetric::add( float *pCentroid, uint clusterSize, const float *pStre
 
 
 /***  MDF  ***/
-vector<float> MDF::newCentroid( uint N, uint D )
+vector<float> MDF::newCentroid( unsigned int N, unsigned int D )
 {
     return vector<float>(N*D, 0.0);
 }
 
-float MDF::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float MDF::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     float dist      = AveragePointwiseDistance( pStreamline1, N1, pStreamline2, N2, D, false );
     float distFlip  = AveragePointwiseDistance( pStreamline1, N1, pStreamline2, N2, D, true );
@@ -217,7 +217,7 @@ float MDF::distance( const float *pStreamline1, uint N1, const float *pStreamlin
     return fmin(dist, distFlip);
 }
 
-float MDF::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float MDF::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float dist      = AveragePointwiseDistance( pCentroid, N, pStreamline, N, D, false );
     float distFlip  = AveragePointwiseDistance( pCentroid, N, pStreamline, N, D, true );
@@ -225,15 +225,15 @@ float MDF::distance( float *pCentroid, const float *pStreamline, uint N, uint D 
     return fmin(dist, distFlip);
 }
 
-void MDF::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void MDF::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float dist      = AveragePointwiseDistance( pCentroid, N, pStreamline, N, D, false );
     float distFlip  = AveragePointwiseDistance( pCentroid, N, pStreamline, N, D, true );
 
     bool isFlip = dist > distFlip;
-    uint idx;
+    unsigned int idx;
 
-    for( uint i=0; i < N*D; i+=D )
+    for( unsigned int i=0; i < N*D; i+=D )
     {
         idx = (isFlip)? (N-1)*D -i : i;
         pCentroid[i]   = ((pCentroid[i]   * clusterSize) + pStreamline[idx])   / (clusterSize+1);
@@ -244,12 +244,12 @@ void MDF::add( float *pCentroid, uint clusterSize, const float *pStreamline, uin
 
 
 /***  ShapeMetric  ***/
-vector<float> ShapeMetric::newCentroid( uint N, uint D )
+vector<float> ShapeMetric::newCentroid( unsigned int N, unsigned int D )
 {
     return vector<float>(N-2, 0.0);
 }
 
-float ShapeMetric::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float ShapeMetric::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     float dk;
     float dist = 0.0, distFlip = 0.0;
@@ -261,7 +261,7 @@ float ShapeMetric::distance( const float *pStreamline1, uint N1, const float *pS
     curvature( pStreamline1, N1, D, pCurvature1Flip, true);
     curvature( pStreamline2, N2, D, pCurvature2,     false);
 
-    for( uint i= 0; i < N1-2; ++i )
+    for( unsigned int i= 0; i < N1-2; ++i )
     {
         dk = pCurvature1[i] - pCurvature2[i];
         dist += log(1 + sqrt(fabs(dk)));
@@ -277,7 +277,7 @@ float ShapeMetric::distance( const float *pStreamline1, uint N1, const float *pS
     return fmin(dist, distFlip);
 }
 
-float ShapeMetric::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float ShapeMetric::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float dk;
     float dist = 0.0, distFlip = 0.0;
@@ -286,7 +286,7 @@ float ShapeMetric::distance( float *pCentroid, const float *pStreamline, uint N,
     curvature( pStreamline, N, D, pCurvature,     false);
     curvature( pStreamline, N, D, pCurvatureFlip, true);
 
-    for( uint i= 0; i < N-2; ++i )
+    for( unsigned int i= 0; i < N-2; ++i )
     {
         dk = pCurvature[i] - pCentroid[i];
         dist += log(1 + sqrt(fabs(dk)));
@@ -301,7 +301,7 @@ float ShapeMetric::distance( float *pCentroid, const float *pStreamline, uint N,
     return fmin(dist, distFlip);
 }
 
-void ShapeMetric::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void ShapeMetric::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float dk;
     float dist = 0.0, distFlip = 0.0;
@@ -310,7 +310,7 @@ void ShapeMetric::add( float *pCentroid, uint clusterSize, const float *pStreaml
     curvature( pStreamline, N, D, pCurvature,     false);
     curvature( pStreamline, N, D, pCurvatureFlip, true);
 
-    for( uint i= 0; i < N-2; ++i )
+    for( unsigned int i= 0; i < N-2; ++i )
     {
         dk = pCurvature[i] - pCentroid[i];
         dist += log(1 + sqrt(fabs(dk)));
@@ -320,9 +320,9 @@ void ShapeMetric::add( float *pCentroid, uint clusterSize, const float *pStreaml
     }
 
     bool isFlip = dist > distFlip;
-    uint idx;
+    unsigned int idx;
 
-    for( uint i= 0; i < N-2; ++i )
+    for( unsigned int i= 0; i < N-2; ++i )
     {
         idx = (isFlip)? (N-3) -i : i;
         pCentroid[i] = ((pCentroid[i] * clusterSize) + pCurvature[idx]) / (clusterSize+1);
@@ -334,12 +334,12 @@ void ShapeMetric::add( float *pCentroid, uint clusterSize, const float *pStreaml
 
 
 /***  OrientationMetric  ***/
-vector<float> OrientationMetric::newCentroid( uint N, uint D )
+vector<float> OrientationMetric::newCentroid( unsigned int N, unsigned int D )
 {
     return vector<float>(3, 0.0);
 }
 
-float OrientationMetric::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float OrientationMetric::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     float v1[3], v2[3];
 
@@ -354,7 +354,7 @@ float OrientationMetric::distance( const float *pStreamline1, uint N1, const flo
     return cosineDistance( v1, v2, D );
 }
 
-float OrientationMetric::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float OrientationMetric::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float v[3];
     v[0] = pStreamline[(N-1)*D]   - pStreamline[0];
@@ -364,7 +364,7 @@ float OrientationMetric::distance( float *pCentroid, const float *pStreamline, u
     return cosineDistance( v, &pCentroid[0], D );
 }
 
-void OrientationMetric::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void OrientationMetric::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float v[3], vFlip[3];
     v[0] = pStreamline[(N-1)*D]   - pStreamline[0];
@@ -394,12 +394,12 @@ void OrientationMetric::add( float *pCentroid, uint clusterSize, const float *pS
 
 
 /***  SpatialMetric  ***/
-vector<float> SpatialMetric::newCentroid( uint N, uint D )
+vector<float> SpatialMetric::newCentroid( unsigned int N, unsigned int D )
 {
     return vector<float>(3, 0.0);
 }
 
-float SpatialMetric::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float SpatialMetric::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     // Midpoint
     int idx1 = int(N1 / 2) * D;
@@ -412,7 +412,7 @@ float SpatialMetric::distance( const float *pStreamline1, uint N1, const float *
     return sqrt( dx*dx + dy*dy + dz*dz );
 }
 
-float SpatialMetric::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float SpatialMetric::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     // Midpoint
     int idx = int(N / 2) * D;
@@ -424,7 +424,7 @@ float SpatialMetric::distance( float *pCentroid, const float *pStreamline, uint 
     return sqrt( dx*dx + dy*dy + dz*dz );
 }
 
-void SpatialMetric::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void SpatialMetric::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
     // Midpoint
     int idx = int(N / 2) * D;
@@ -436,12 +436,12 @@ void SpatialMetric::add( float *pCentroid, uint clusterSize, const float *pStrea
 
 
 /***  LengthMetric  ***/
-vector<float> LengthMetric::newCentroid( uint N, uint D )
+vector<float> LengthMetric::newCentroid( unsigned int N, unsigned int D )
 {
     return vector<float>(1, 0.0);
 }
 
-float LengthMetric::distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D )
+float LengthMetric::distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D )
 {
     float length1 = arcLength( pStreamline1, N1, D );
     float length2 = arcLength( pStreamline2, N2, D );
@@ -449,14 +449,14 @@ float LengthMetric::distance( const float *pStreamline1, uint N1, const float *p
     return fabs( length1 - length2 );
 }
 
-float LengthMetric::distance( float *pCentroid, const float *pStreamline, uint N, uint D )
+float LengthMetric::distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float length = arcLength( pStreamline, N, D );
     
     return fabs( length - pCentroid[0] );
 }
 
-void LengthMetric::add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D )
+void LengthMetric::add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D )
 {
     float length = arcLength( pStreamline, N, D );
 

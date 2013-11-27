@@ -21,13 +21,13 @@ const float BIGGEST_FLOAT = 3.4028235e+38;
 class QuickBundles
 {
 public:
-    QuickBundles( const vector<Fibers*>& bundles, Metric *pMetric, float threshold, uint nbDownsamplingPts);
+    QuickBundles( const vector<Fibers*>& bundles, Metric *pMetric, float threshold, unsigned int nbDownsamplingPts);
     virtual ~QuickBundles();
 
     int getNbClusters() const { return m_clusters.size(); }
-    vector<float*>  getPoints( uint no_cluster );
-    vector<int>     getLengths( uint no_cluster );
-    vector<float*>  getColors( uint no_cluster );
+    vector<float*>  getPoints( unsigned int no_cluster );
+    vector<int>     getLengths( unsigned int no_cluster );
+    vector<float*>  getColors( unsigned int no_cluster );
 
 private:
     QuickBundles( const QuickBundles & );
@@ -40,7 +40,7 @@ private:
     // Variables
     Metric *m_pMetric;
     float m_threshold;
-    uint m_nbDownsamplingPts;
+    unsigned int m_nbDownsamplingPts;
     vector<Cluster> m_clusters;
 
     float *m_pPoints;

@@ -7,23 +7,17 @@
 #include <string>
 #include <vector>
 
-struct ClusterStruct
-{
-    std::vector< int > indices;
-    std::vector< float > centroid;
-};
-
 class Metric;
 
 class Cluster
 {
 public:
-    Cluster(Metric *pMetric);
+    Cluster( Metric *pMetric );
 
-    float distance( const float *pStreamline, uint N, uint D=3 );
-    void add( uint idx, const float *pStreamline, uint N, uint D=3 );
+    float distance( const float *pStreamline, unsigned int N, unsigned int D=3 );
+    void add( unsigned int idx, const float *pStreamline, unsigned int N, unsigned int D=3 );
 
-    std::vector<uint> m_indices;
+    std::vector<unsigned int> m_indices;
     std::vector<float> m_centroid;
 
 private:
@@ -42,10 +36,10 @@ public:
     Metric() {}
     virtual ~Metric() {}
 
-    virtual vector<float> newCentroid( uint N, uint D ) = 0;
-    virtual float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D ) = 0;
-    virtual float distance( float *pCentroid, const float *pStreamline, uint N, uint D ) = 0;
-    virtual void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D ) = 0;
+    virtual vector<float> newCentroid( unsigned int N, unsigned int D ) = 0;
+    virtual float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D ) = 0;
+    virtual float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D ) = 0;
+    virtual void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D ) = 0;
 
 private:
     Metric( const Metric & );
@@ -62,18 +56,18 @@ public:
     virtual ~WeightedMetric() {}
 
     void addMetric( Metric *pMetric, float weight=1.0 );
-    void removeMetric( uint idxMetric );
-    void updateMetric( uint idxMetric, float weight );
+    void removeMetric( unsigned int idxMetric );
+    void updateMetric( unsigned int idxMetric, float weight );
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 
 private:
     vector<float>       m_weights;
     vector<Metric*>     m_metrics;
-    vector<uint>        m_centroidsStart;
+    vector<unsigned int>        m_centroidsStart;
 };
 
 
@@ -86,10 +80,10 @@ public:
     MDF() {}
     virtual ~MDF() {}
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 };
 
 /**
@@ -102,10 +96,10 @@ public:
     ShapeMetric() {}
     virtual ~ShapeMetric() {}
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 };
 
 /**
@@ -118,10 +112,10 @@ public:
     OrientationMetric() {}
     virtual ~OrientationMetric() {}
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 };
 
 /**
@@ -134,10 +128,10 @@ public:
     SpatialMetric() {}
     virtual ~SpatialMetric() {}
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 };
 
 /**
@@ -150,10 +144,10 @@ public:
     LengthMetric() {}
     virtual ~LengthMetric() {}
 
-    vector<float> newCentroid( uint N, uint D );
-    float distance( const float *pStreamline1, uint N1, const float *pStreamline2, uint N2, uint D );
-    float distance( float *pCentroid, const float *pStreamline, uint N, uint D );
-    void add( float *pCentroid, uint clusterSize, const float *pStreamline, uint N, uint D );
+    vector<float> newCentroid( unsigned int N, unsigned int D );
+    float distance( const float *pStreamline1, unsigned int N1, const float *pStreamline2, unsigned int N2, unsigned int D );
+    float distance( float *pCentroid, const float *pStreamline, unsigned int N, unsigned int D );
+    void add( float *pCentroid, unsigned int clusterSize, const float *pStreamline, unsigned int N, unsigned int D );
 };
 
 #endif /* DISTANCES_H_ */
