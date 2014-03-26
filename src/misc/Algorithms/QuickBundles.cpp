@@ -3,6 +3,9 @@
 #include "../../Logger.h"
 #include "Interpolation.h"
 #include <sstream>
+
+#include <algorithm>    // std::random_shuffle
+
 using std::stringstream;
 
 QuickBundles::QuickBundles(const vector<Fibers*>& bundles, Metric *pMetric, float threshold, unsigned int nbDownsamplingPts)
@@ -24,6 +27,13 @@ QuickBundles::QuickBundles(const vector<Fibers*>& bundles, Metric *pMetric, floa
         }
     }
 
+    // List of the index of all fibers.
+    for( unsigned int i=0; i < m_fibersLines.size(); ++i )
+    {
+        m_indices.push_back(i);
+    }
+
+    // TODO: The downsampling is done each time we want to cluster... ouch!
     // Downsample all streamlines so they have the same number of points.
     m_pPoints = new float[m_fibersLength.size() * m_nbDownsamplingPts * 3];
 
@@ -51,9 +61,13 @@ void QuickBundles::cluster()
     float dist_min, dist_ck_si;
     float* pStreamline;
 
+    // Shuffle index inplace since QuickBundles is sensitive to initialization
+    std::random_shuffle(m_indices.begin(), m_indices.end());
+
     // Assign each streamlines to a cluster
-    for( unsigned int idx=0; idx < m_line2point.size(); ++idx )
+    for( unsigned int i=0; i < m_indices.size(); ++i )
     {
+        unsigned int idx = m_indices[i];
         pStreamline = &m_pPoints[m_line2point[idx]];
 
         // Find closest cluster

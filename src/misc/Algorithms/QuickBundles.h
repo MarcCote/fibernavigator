@@ -48,6 +48,7 @@ private:
     vector<float*> m_fibersLines;
     vector<int> m_fibersLength;
     vector<float*> m_fibersColors;
+    vector<int> m_indices;
     
 };
 
