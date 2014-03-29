@@ -1519,7 +1519,7 @@ bool Fibers::createFrom( const vector<float*>& pointsStartPtr, const vector<int>
     m_pointArray.max_size();
     m_pointArray.resize( m_countPoints * 3 );
     m_colorArray.resize( m_countPoints * 3 );
-    m_reverse.resize( m_countPoints * 3 );
+    m_reverse.resize( m_countPoints );
     m_linePointers.resize( m_countLines + 1 );
     m_selected.resize( m_countLines, false );
     m_filtered.resize( m_countLines, false );
@@ -1534,7 +1534,7 @@ bool Fibers::createFrom( const vector<float*>& pointsStartPtr, const vector<int>
 
             m_pointArray[offset + j] = pointsStartPtr[i][j];
             m_colorArray[offset + j] = colorStartPtr[i][j];
-            m_reverse[offset + j] = i;
+            m_reverse[offset/3 + j/3] = i;
         }
 
         m_linePointers[i+1] = m_linePointers[i] + linesLength[i];
